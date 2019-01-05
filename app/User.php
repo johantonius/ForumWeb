@@ -26,7 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
+    }
     public function forums()
     {
         return $this->hasMany('App\Forum');
@@ -34,5 +37,9 @@ class User extends Authenticatable
     public function threads()
     {
         return $this->hasMany('App\Thread');
+    }
+    public function inboxes()
+    {
+        return $this->hasMany('App\Inbox');
     }
 }
