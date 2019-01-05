@@ -72,7 +72,8 @@ class ForumController extends Controller
     public function edit($id)
     {
         $forum = Forum::find($id);
-        return view('forum/edit', compact('forum'));
+        $categories = Category::all();
+        return view('forum/edit', compact('forum', 'categories'));
     }
 
     /**
@@ -87,7 +88,7 @@ class ForumController extends Controller
         $forum = Forum::find($id);
 
         $forum->title = $request->title;
-        $forum->category = $request->category;
+        $forum->category_id = $request->category;
         $forum->description = $request->description;
 
         $forum->save();

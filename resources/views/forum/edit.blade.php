@@ -8,7 +8,12 @@
         Title:<br/>
         <input type="text" name="title"><br/>
         Category:<br/>
-        <input type="text" name="category"><br/>
+        <select name="category" id="">
+            @foreach ($categories as $i)
+               <option value="{{ $i->id }}">{{ $i->name }}</option> 
+            @endforeach
+        </select>
+        <br>
         Description:<br/>
         <input type="text" name="description"><br/><br/>
         <input type="submit" value="Update Forum">
