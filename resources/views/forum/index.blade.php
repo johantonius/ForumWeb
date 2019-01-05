@@ -7,7 +7,7 @@
         <h5>Title</h5>
         {{ $forum->title }}<br/>
         <h5>Category</h5>
-        {{ $forum->category }}<br/>
+        {{ $forum->category->name }}<br/>
         <h5>Description</h5>
         {{ $forum->description }}
         

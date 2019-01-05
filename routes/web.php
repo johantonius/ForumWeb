@@ -32,3 +32,8 @@ Route::post('/forum/{id}/update', 'ForumController@update')->name('f.update');
 Route::get('/forum/{id}/delete', 'ForumController@destroy')->name('f.delete');
 
 Route::get('/categories', 'CategoryController@index');
+Route::post('/categories','CategoryController@store');
+
+Route::get('/categories/edit/{id}', 'CategoryController@edit');
+Route::post('/categories/edit/update/{id}', 'CategoryController@update');
+Route::get('/categories/delete/{id}','CategoryController@destroy');

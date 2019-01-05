@@ -15,15 +15,21 @@ class CreateForumsTable extends Migration
     {
         Schema::create('forums', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
             $table->string('title');
-            $table->integer('category_id');
             $table->string('description');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('status')->default("Open");
             $table->timestamps();
+            $table->integer('user_id')->unsigned();
+            $table->integer('category_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
+        
+        // Schema::table('forums', function (Blueprint $table) {
+            
+        // });
+
+
     }
 
     /**

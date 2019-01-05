@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Forum;
+use App\Category;
 
 class ForumController extends Controller
 {
@@ -26,7 +27,8 @@ class ForumController extends Controller
      */
     public function create()
     {
-        return view('forum/create');
+        $categories = Category::all();
+        return view('forum/create', compact('categories'));
     }
 
     /**
@@ -40,8 +42,11 @@ class ForumController extends Controller
         $forum = new Forum;
 
         $forum->title = $request->title;
-        $forum->category = $request->category;
+        $forum->category_id = $request->category;
         $forum->description = $request->description;
+        $forum->status = "open";
+        $forum->user_id = 1;//masih sementara karena login dan register belum bisa jadi gaada
+
 
         $forum->save();
         return redirect('/forums');
