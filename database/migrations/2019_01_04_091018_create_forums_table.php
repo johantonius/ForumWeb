@@ -32,4 +32,8 @@ class CreateForumsTable extends Migration
     {
         Schema::dropIfExists('forums');
     }
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
