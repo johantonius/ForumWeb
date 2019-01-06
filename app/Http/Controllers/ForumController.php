@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Forum;
 use App\Category;
+use Authl;
 
 class ForumController extends Controller
 {
@@ -46,7 +47,8 @@ class ForumController extends Controller
         $forum->description = $request->description;
         $forum->status = "open";
         // $forum->user_id = Auth::user()->id;
-        $forum->user_id = 2;
+        //$forum->user_id = 2;
+        $forum->user_id = auth()->user()->id;
 
         $forum->save();
         return redirect('/forums');
