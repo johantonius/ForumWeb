@@ -45,7 +45,8 @@ class ForumController extends Controller
         $forum->category_id = $request->category;
         $forum->description = $request->description;
         $forum->status = "open";
-        $forum->user_id = Auth::user()->id;
+        // $forum->user_id = Auth::user()->id;
+        $forum->user_id = 2;
 
         $forum->save();
         return redirect('/forums');
