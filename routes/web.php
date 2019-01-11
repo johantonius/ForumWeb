@@ -43,3 +43,6 @@ Route::post('/categories','CategoryController@store');
 Route::get('/categories/edit/{id}', 'CategoryController@edit');
 Route::post('/categories/edit/update/{id}', 'CategoryController@update');
 Route::get('/categories/delete/{id}','CategoryController@destroy');
+
+Route::get('/forums/{id}','ThreadController@show');
+Route::get('/forums/{id}/add/', 'ThreadController@screate');

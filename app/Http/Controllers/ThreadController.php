@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Forum;
-use App\Category;
-use Authl;
-
-class ForumController extends Controller
+use App\Thread;
+class ThreadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +14,7 @@ class ForumController extends Controller
     public function index()
     {
         $forums = Forum::all();
-        // dd($forums);
+
         return view('forum/index', compact('forums'));
     }
 
@@ -60,9 +57,10 @@ class ForumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($forumId)
     {
-        //
+       $threads = Thread::where('forum_id','=',$forumId)->get();
+        return view('thread/index', compact('threads'));
     }
 
     /**
