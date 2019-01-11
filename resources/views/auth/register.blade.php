@@ -8,7 +8,7 @@
                 <div class="panel-heading">Register</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ url('/registerform') }}">
+                    <form class="form-horizontal" method="POST" action="{{ url('/registerform') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -99,6 +99,13 @@
                                 <div class="col-md-6">
                                     <input id="name" type="file" class="form-control" name="picture_path" value="{{ old('picture_path') }}" required autofocus>
                                 </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('picture_path') ? ' has-error' : '' }}">
+    
+                                <div class="col-md-6">
+                                    <input id="name" type="checkbox" class="form-control" name="picture_path" value="{{ old('picture_path') }}" required autofocus>
+                                </div>
+                                <label for="name" class="col-md-4 control-label">Agreement</label>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Thread;
-use App\Forum;
-class ThreadController extends Controller
+use App\Inbox;
+use Auth;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,6 +18,9 @@ class ThreadController extends Controller
     public function index()
     {
         
+        $messages = DB::table('inboxes')->join('users','inboxes.sender_id','=','users.id')->where('receiver_id',Auth::user()->id)->get();
+        
+        return view('message/inbox', compact('messages'));
     }
 
     /**
@@ -24,7 +30,8 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        
+        $categories = Category::all();
+        return view('forum/create', compact('categories'));
     }
 
     /**
@@ -33,16 +40,20 @@ class ThreadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($forumID,Request $request)
+    public function store(Request $request)
     {
-        $thread = new Thread;
-        $thread->content = $request->content;
-        $thread->forum_id = $forumID;
+        $forum = new Forum;
 
-        $thread->user_id = auth()->user()->id;
+        $forum->title = $request->title;
+        $forum->category_id = $request->category;
+        $forum->description = $request->description;
+        $forum->status = "open";
+        $forum->user_id = Auth::user()->id;
+        //$forum->user_id = 2;
+        // $forum->user_id = auth()->user()->id;
 
-        $thread->save();
-        return redirect('/forums/'.$forumID);
+        $forum->save();
+        return redirect('/forums');
     }
 
     /**
@@ -51,11 +62,10 @@ class ThreadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($forumId)
+    public function show($id)
     {
-       $threads = Thread::where('forum_id','=',$forumId)->get();
-       $forum = Forum::find($forumId);;
-        return view('thread/index', compact('threads','forum'));
+        
+        
     }
 
     /**
@@ -64,11 +74,12 @@ class ThreadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($forumID, $id)
+    public function edit($id)
     {
-        $thread = Thread::find($id);
-        $id=$forumID;
-        return view('thread/edit', compact('thread','id'));
+        $forum = Forum::find($id);
+        $categories = Category::all();
+        // dd($forum);
+        return view('forum/edit', compact('forum', 'categories'));
     }
 
     /**
@@ -78,12 +89,9 @@ class ThreadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$forumID, $id)
+    public function update(Request $request)
     {
-        $thread = Thread::find($id);
-        $thread->content = $request->content;
-        $thread->save();
-        return redirect('/forums/'.$forumID);
+        
     }
 
     /**
@@ -94,9 +102,9 @@ class ThreadController extends Controller
      */
     public function destroy($id)
     {
-        $thread = Thread::find($id);
+        $inbox = Inbox::find($id);
 
-        $thread->delete();
+        $inbox->delete();
         return redirect()->back();
     }
 }

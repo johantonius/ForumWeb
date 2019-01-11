@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Forum;
 use App\Category;
-use Authl;
+use Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ForumController extends Controller
 {
@@ -14,6 +15,11 @@ class ForumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $forums = Forum::all();
@@ -28,6 +34,7 @@ class ForumController extends Controller
      */
     public function create()
     {
+
         $categories = Category::all();
         return view('forum/create', compact('categories'));
     }
@@ -40,15 +47,22 @@ class ForumController extends Controller
      */
     public function store(Request $request)
     {
+        $validate = Validator::make($request->all(),[
+            'title'=>'required',
+            'category'=>'required',
+        ]);
+        if($validate->fails()){
+            return redirect('/forum/create')->withErrors($validate);
+        }
         $forum = new Forum;
 
         $forum->title = $request->title;
         $forum->category_id = $request->category;
         $forum->description = $request->description;
         $forum->status = "open";
-        // $forum->user_id = Auth::user()->id;
+        $forum->user_id = Auth::user()->id;
         //$forum->user_id = 2;
-        $forum->user_id = auth()->user()->id;
+        // $forum->user_id = auth()->user()->id;
 
         $forum->save();
         return redirect('/forums');
@@ -75,6 +89,7 @@ class ForumController extends Controller
     {
         $forum = Forum::find($id);
         $categories = Category::all();
+        // dd($forum);
         return view('forum/edit', compact('forum', 'categories'));
     }
 

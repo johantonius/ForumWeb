@@ -37,6 +37,7 @@ Route::post('/forum/{id}/update', 'ForumController@update')->name('f.update');
 
 Route::get('/forum/{id}/delete', 'ForumController@destroy')->name('f.delete');
 
+
 Route::get('/categories', 'CategoryController@index');
 Route::post('/categories','CategoryController@store');
 
@@ -45,4 +46,12 @@ Route::post('/categories/edit/update/{id}', 'CategoryController@update');
 Route::get('/categories/delete/{id}','CategoryController@destroy');
 
 Route::get('/forums/{id}','ThreadController@show');
-Route::get('/forums/{id}/add/', 'ThreadController@screate');
+
+Route::post('/forums/{id}/add/', 'ThreadController@store');
+Route::get('/thread/{forumId}/edit/{threadID}', 'ThreadController@edit')->name('t.edit');
+Route::post('/forums/{forumId}/update/{id}', 'ThreadController@update')->name('t.update');
+Route::get('/forums/delete/{id}', 'ThreadController@destroy')->name('t.delete');
+
+Route::get('/inbox','MessageController@index')->name('inbox');
+Route::get('/inbox/{id}','MessageController@show')->name('i.show');
+Route::get('/inbox/delete/{id}','MessageController@destroy')->name('i.delete');

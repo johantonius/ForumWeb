@@ -2,11 +2,11 @@
 
 @section('content')
 <div>
-    <h1>Update Forum</h1>
-    <form action="{{route('f.update', ['id' => $forum->id])}}" method="POST">
+    <h1>Create Forum</h1>
+    <form action="/forum/save" method="POST">
         {{ csrf_field() }}
         Title:<br/>
-        <input type="text" name="title"><br/>
+        <input type="text" name="title" value="{{$forum->title}}"><br/>
         Category:<br/>
         <select name="category" id="">
             @foreach ($categories as $i)
@@ -15,8 +15,8 @@
         </select>
         <br>
         Description:<br/>
-        <input type="text" name="description"><br/><br/>
-        <input type="submit" value="Update Forum">
+        <input type="text" name="description" value="{{$forum->description}}"><br/><br/>
+        <input type="submit" value="Create Forum">
     </form>
 </div>
 @stop
